@@ -45,25 +45,25 @@ def Rename_dataframe(data):
     Returns:
         dataframe: reordered dataframe with no hashtag for familyID
     """
-    data.columns = ['family_id', 'sample_id', 'paternal_id', 'maternal_id', 'sex',
-        'phenotype', 'original_pedigree_sex', 'gt_depth_mean',
-        'gt_depth_sd', 'depth_mean', 'depth_sd', 'ab_mean', 'ab_std',
-        'n_hom_ref', 'n_het',' n_hom_alt', 'n_unknown', 'p_middling_ab',
-        'X_depth_mean', 'X_n', 'X_hom_ref', 'X_het', 'X_hom_alt',
-        'Y_depth_mean','Y_n']
+    data.columns = ['family_id', 'sample_id', 'paternal_id',
+    'maternal_id', 'sex', 'phenotype', 'original_pedigree_sex',
+    'gt_depth_mean', 'gt_depth_sd', 'depth_mean', 'depth_sd',
+    'ab_mean', 'ab_std', 'n_hom_ref', 'n_het',' n_hom_alt',
+    'n_unknown', 'p_middling_ab', 'X_depth_mean', 'X_n',
+    'X_hom_ref', 'X_het', 'X_hom_alt', 'Y_depth_mean', 'Y_n']
     
-    data = data[['sample_id', 'paternal_id', 'maternal_id', 'family_id', 'sex',
-        'phenotype', 'original_pedigree_sex', 'gt_depth_mean',
-        'gt_depth_sd', 'depth_mean', 'depth_sd', 'ab_mean', 'ab_std',
-        'n_hom_ref', 'n_het',' n_hom_alt', 'n_unknown', 'p_middling_ab',
-        'X_depth_mean', 'X_n', 'X_hom_ref', 'X_het', 'X_hom_alt',
-        'Y_depth_mean','Y_n']]
-    
+    data = data[['sample_id', 'paternal_id', 'maternal_id', 'family_id',
+    'sex', 'phenotype', 'original_pedigree_sex', 'gt_depth_mean',
+    'gt_depth_sd', 'depth_mean', 'depth_sd', 'ab_mean', 'ab_std',
+    'n_hom_ref', 'n_het', ' n_hom_alt', 'n_unknown', 'p_middling_ab',
+    'X_depth_mean', 'X_n', 'X_hom_ref', 'X_het', 'X_hom_alt',
+    'Y_depth_mean', 'Y_n']]
+
     samples = data.sample_id
 
     # Check that there are no sample name duplicates
     if len(samples) == len(set(samples)):
-        #TRUE len samples equal to uniques len samples
+        # TRUE len samples equal to uniques len samples
         print("Unique sampleIDs")
     else:
         print('len(samples) =', len(samples))
@@ -137,7 +137,6 @@ def Predict_Sex(data, f_cutoff, m_cutoff):
     return data
 
 
-
 def main():
 
     args = parse_args()
@@ -151,8 +150,8 @@ def main():
     data = Predict_Sex(data, f_cutoff, m_cutoff)
 
     # replace over existing file
-    # data.to_csv(args.input_data, sep="\t", index=False, header=True)
-    data.to_csv('Multiqc_' + args.input_data, sep="\t", index=False, header=True)
+    data.to_csv('Multiqc_' + args.input_data,
+    sep="\t", index=False, header=True)
 
 
 if __name__ == "__main__":
