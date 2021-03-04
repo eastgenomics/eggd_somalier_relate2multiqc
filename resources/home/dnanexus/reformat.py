@@ -49,11 +49,11 @@ def Rename_dataframe(data):
         'family_id', 'sample_id', 'paternal_id',
         'maternal_id', 'sex', 'phenotype', 'original_pedigree_sex',
         'gt_depth_mean', 'gt_depth_sd', 'depth_mean', 'depth_sd',
-        'ab_mean', 'ab_std', 'n_hom_ref', 'n_het',' n_hom_alt',
+        'ab_mean', 'ab_std', 'n_hom_ref', 'n_het', ' n_hom_alt',
         'n_unknown', 'p_middling_ab', 'X_depth_mean', 'X_n',
         'X_hom_ref', 'X_het', 'X_hom_alt', 'Y_depth_mean', 'Y_n'
         ]
-    
+
     data = data[[
         'sample_id', 'paternal_id', 'maternal_id', 'family_id',
         'sex', 'phenotype', 'original_pedigree_sex', 'gt_depth_mean',
@@ -153,8 +153,10 @@ def main():
     data = Predict_Sex(data, f_cutoff, m_cutoff)
 
     # replace over existing file
-    data.to_csv('Multiqc_' + args.input_data,
-    sep="\t", index=False, header=True)
+    data.to_csv(
+        'Multiqc_' + args.input_data, 
+        sep="\t", index=False, header=True
+        )
 
 
 if __name__ == "__main__":
