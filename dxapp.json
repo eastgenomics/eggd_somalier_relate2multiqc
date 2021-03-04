@@ -1,0 +1,90 @@
+{
+  "name": "eggd_somalier_relate2multiqc_v1.0.0",
+  "title": "eggd_somalier_relate2multiqc",
+  "summary": "Reformats somalier output somalier.samples.tsv to append predicted sex to file and it is in a suitable format for multiqc",
+  "dxapi": "1.0.0",
+  "properties": {
+    "githubRelease": "v1.0.0"
+  },
+  "inputSpec": [
+    {
+      "name": "input_file",
+      "class": "array:file",
+      "optional": false,
+      "patterns": [
+        "*.somalier"
+      ],
+      "help": "An array of somalier files"
+    },
+    {
+      "name": "somalier_input",
+      "class": "file",
+      "optional": false,
+      "patterns": [
+        "*.samples.tsv"
+      ],
+      "help": "Output file from somalier, default name: somalier.samples.tsv"
+    },
+    {
+      "name": "f",
+      "label": "Female",
+      "class": "int",
+      "optional": true,
+      "help": "A integer value for het calls threshold for females. Default is 45"
+    },
+    {
+      "name": "m",
+      "label": "Male",
+      "class": "int",
+      "optional": true,
+      "help": "A integer value for het calls threshold for males. Default is 1"
+    },
+    {
+      "name": "file_prefix",
+      "class": "file",
+      "optional": true,
+      "patterns": [
+        "*.txt"
+      ],
+      "help": "File with current path directory. Removes 000 prefix. Run 'dx pwd > file_prefix.txt' on the cmd line"
+    }
+  ],
+  "outputSpec": [
+    {
+      "name": "somalier_output",
+      "class": "file",
+      "patterns": [
+        "*.samples.tsv"
+      ],
+      "help": ""
+    }
+  ],
+  "runSpec": {
+    "timeoutPolicy": {
+      "*": {
+        "hours": 1
+      }
+    },
+    "interpreter": "bash",
+    "release": "16.04",
+    "distribution": "Ubuntu",
+    "file": "src/eggd_somalier_relate2multiqc.sh",
+    "version": "1"
+  },
+  "access": {
+    "project": "CONTRIBUTE",
+    "allProjects": "VIEW",
+    "network": [
+      "*"
+    ]
+  },
+  "regionalOptions": {
+    "aws:eu-central-1": {
+      "systemRequirements": {
+        "*": {
+          "instanceType": "mem3_ssd1_v2_x4"
+        }
+      }
+    }
+  }
+}
