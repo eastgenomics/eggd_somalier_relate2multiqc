@@ -154,7 +154,7 @@ def main():
 
     # replace over existing file
     data.to_csv(
-        'Multiqc_' + args.input_data, 
+        'Multiqc_' + args.input_data,
         sep="\t", index=False, header=True
         )
 
