@@ -139,6 +139,44 @@ def Predict_Sex(data, f_cutoff, m_cutoff):
 
     return data
 
+def Matching_Sexes(data):
+    """Gives true or false whether reported or predicted sex match
+
+    Args:
+        data (panda data frame): output from {sample}.somalier.samples.tsv
+
+    Returns:
+        data (pandas data frame): Updates dataframe
+        including predicted sex column
+    """
+    Reported_Sex = list(data.original_pedigree_sex)
+    Predicted_Sex = list(data.Predicted_Sex)
+    Match = []
+
+    for sample in range(0,len(Reported_Sex)):
+        reported_sex_sample = Reported_Sex[sample]
+        predicted_sex_sample = Predicted_Sex[sample]
+        sex_match = reported_sex_sample == predicted_sex_sample
+        Match.append(sex_match)
+    
+    # Match list is a booleans and not strings so we hard to apply 
+    # string functions. Convert each boolean to string
+    # 
+
+    Match_lowercase = []
+
+    for boolean in Match:
+        boolean_string = str(boolean)
+        boolean_string_lowercase = boolean_string.lower()
+        Match_lowercase.append(boolean_string_lowercase)
+
+    print(Match_lowercase)
+
+    Match_Sexes = pd.DataFrame({'Match_Sexes': Match_lowercase})
+
+    data = pd.concat([data, Match_Sexes], axis=1)
+
+    return data
 
 def main():
 
@@ -151,6 +189,8 @@ def main():
     f_cutoff, m_cutoff = get_cutoffs(args)
 
     data = Predict_Sex(data, f_cutoff, m_cutoff)
+
+    data = Matching_Sexes(data)
 
     # replace over existing file
     data.to_csv(
