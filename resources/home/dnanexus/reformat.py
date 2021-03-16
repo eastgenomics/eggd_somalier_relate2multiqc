@@ -158,10 +158,9 @@ def Matching_Sexes(data):
         predicted_sex_sample = Predicted_Sex[sample]
         sex_match = reported_sex_sample == predicted_sex_sample
         Match.append(sex_match)
-    
+
     # Match list is a booleans and not strings so we hard to apply 
     # string functions. Convert each boolean to string
-    # 
 
     Match_lowercase = []
 

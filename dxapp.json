@@ -22,14 +22,14 @@
       "label": "Female Threshold",
       "class": "int",
       "optional": false,
-      "help": "A integer value for het calls threshold for females. Default is 45"
+      "help": "A integer value for het calls threshold for females. Takes value and above to be female."
     },
     {
       "name": "male_threshold",
       "label": "Male Threshold",
       "class": "int",
       "optional": false,
-      "help": "A integer value for het calls threshold for males. Default is 1"
+      "help": "A integer value for het calls threshold for males. Takes value and below to be male."
     }
   ],
   "outputSpec": [
@@ -57,10 +57,7 @@
   },
   "access": {
     "project": "CONTRIBUTE",
-    "allProjects": "VIEW",
-    "network": [
-      "*"
-    ]
+    "allProjects": "VIEW"
   },
   "regionalOptions": {
     "aws:eu-central-1": {
