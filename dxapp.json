@@ -9,36 +9,38 @@
   "inputSpec": [
     {
       "name": "somalier_input",
+      "label": "Somalier samples tsv file",
       "class": "file",
       "optional": false,
       "patterns": [
         "*.samples.tsv"
       ],
-      "help": "Output file from somalier, default name: somalier.samples.tsv"
+      "help": "Output file from somalier relate, default name: somalier.samples.tsv"
     },
     {
-      "name": "f",
-      "label": "Female",
+      "name": "female_threshold",
+      "label": "Female Threshold",
       "class": "int",
-      "optional": true,
+      "optional": false,
       "help": "A integer value for het calls threshold for females. Default is 45"
     },
     {
-      "name": "m",
-      "label": "Male",
+      "name": "male_threshold",
+      "label": "Male Threshold",
       "class": "int",
-      "optional": true,
+      "optional": false,
       "help": "A integer value for het calls threshold for males. Default is 1"
     }
   ],
   "outputSpec": [
     {
-      "name": "somalier_output",
+      "name": "modified_somalier_output",
+      "label": "Modified somalier samples tsv output",
       "class": "file",
       "patterns": [
         "*.samples.tsv"
       ],
-      "help": ""
+      "help": "Modified somalier sample tsv file with corrected column ordering and appended predicted sex column and true/false reported to predicted sex column."
     }
   ],
   "runSpec": {
