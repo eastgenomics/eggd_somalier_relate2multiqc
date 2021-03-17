@@ -1,6 +1,6 @@
 {
   "name": "eggd_somalier_relate2multiqc_v1.0.0",
-  "title": "eggd_somalier_relate2multiqc",
+  "title": "eggd_somalier_relate2multiqc_v1.0.0",
   "summary": "Reformats somalier output somalier.samples.tsv to append predicted sex to file and it is in a suitable format for multiqc",
   "dxapi": "1.0.0",
   "properties": {
@@ -57,7 +57,10 @@
   },
   "access": {
     "project": "CONTRIBUTE",
-    "allProjects": "VIEW"
+    "allProjects": "VIEW",
+    "network": [
+      "*"
+    ]
   },
   "regionalOptions": {
     "aws:eu-central-1": {
