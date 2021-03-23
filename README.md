@@ -8,7 +8,7 @@ Reformats the output of somalier relate to append predicted sex, add a matching 
 ## What are the inputs?
 * somalier.samples.tsv
 * Female and male thresholds to predict sex from x_het variant calls
-    * female = 45, male = 1 for geminini(dias) samples
+    * female = 45, male = 1 are used for default
     * Anything between the female and male threshold is classified as unknown sex
 
 
