@@ -14,21 +14,27 @@ def parse_args():
     parser = argparse.ArgumentParser()
 
     parser.add_argument(
-        '-i', '--input_data',
-        help='default cutoff is >= 45',
-        required=False
+        '-i', '--input_somalier',
+        help='Somalier samples tsv file',
+        required=True
         )
 
     parser.add_argument(
         '-F', '--Female_cutoff',
-        help='default cutoff is >= 45',
-        required=False
+        help='An integer value for het calls threshold for females',
+        required=False,
+        nargs='?',
+        const=45,
+        default=45
         )
 
     parser.add_argument(
         '-M', '--Male_cutoff',
-        help='default cutoff is <= 1',
-        required=False
+        help='An integer value for het calls threshold for males.',
+        required=False,
+        nargs='?',
+        const=1,
+        default=1
         )
 
     args = parser.parse_args()
@@ -36,7 +42,7 @@ def parse_args():
     return args
 
 
-def Rename_dataframe(data):
+def rename_dataframe(data):
     """REmoves hashtag from familyID and makes sampleID 1st column
 
     Args:
@@ -69,9 +75,10 @@ def Rename_dataframe(data):
         # TRUE len samples equal to uniques len samples
         print("Unique sampleIDs")
     else:
-        print('len(samples) =', len(samples))
-        print('len(set(samples)) =', len(set(samples)))
+        print('Number of samples =', len(samples))
+        print('Unique samples =', len(set(samples)))
         print("Duplicates sampleIDs")
+        raise Exception('Duplicates sampleIDs')
 
     return data
 
@@ -86,22 +93,8 @@ def get_cutoffs(args):
         f_cuttoff (int): female het calls threshold
         m_cuttoff (int): male het calls threshold
     """
-    # If cutoffs are provided use those else
-    # use default cutoffs F = 45 and M = 1
-
-    if args.Female_cutoff is None:
-        print("Default female cutoff at >= 45 is used")
-        f_cutoff = 45
-    else:
-        print("Female cutoff is " + args.Female_cutoff)
-        f_cutoff = args.Female_cutoff
-
-    if args.Male_cutoff is None:
-        print("Default Male cutoff at <= 1 is used")
-        m_cutoff = 1
-    else:
-        print("Male cutoff is " + args.Male_cutoff)
-        m_cutoff = args.Male_cutoff
+    f_cutoff = args.Female_cutoff
+    m_cutoff = args.Male_cutoff
 
     # Need to convert to int as its str so far
     f_cutoff = int(f_cutoff)
@@ -110,7 +103,7 @@ def get_cutoffs(args):
     return f_cutoff, m_cutoff
 
 
-def Predict_Sex(data, f_cutoff, m_cutoff):
+def predict_sex(data, f_cutoff, m_cutoff):
     """Predicts sex on data provided based on given / default thresholds
 
     Args:
@@ -139,7 +132,8 @@ def Predict_Sex(data, f_cutoff, m_cutoff):
 
     return data
 
-def Matching_Sexes(data):
+
+def matching_sexes(data):
     """Gives true or false whether reported or predicted sex match
 
     Args:
@@ -177,23 +171,24 @@ def Matching_Sexes(data):
 
     return data
 
+
 def main():
 
     args = parse_args()
 
-    data = pd.read_csv(args.input_data, sep='\t')
+    data = pd.read_csv(args.input_somalier, sep='\t')
 
-    data = Rename_dataframe(data)
+    data = rename_dataframe(data)
 
     f_cutoff, m_cutoff = get_cutoffs(args)
 
-    data = Predict_Sex(data, f_cutoff, m_cutoff)
+    data = predict_sex(data, f_cutoff, m_cutoff)
 
-    data = Matching_Sexes(data)
+    data = matching_sexes(data)
 
     # replace over existing file
     data.to_csv(
-        'Multiqc_' + args.input_data,
+        'Multiqc_' + args.input_somalier,
         sep="\t", index=False, header=True
         )
 
