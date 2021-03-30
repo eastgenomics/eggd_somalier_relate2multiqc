@@ -13,9 +13,9 @@ main() {
     echo "Value of male threshold: '${male_threshold}'"
 
     # Install packages
-    pip install packages/pandas-0.24.2-cp35-cp35m-manylinux1_x86_64.whl
     pip install packages/numpy-1.18.5-cp35-cp35m-manylinux1_x86_64.whl
     pip install packages/pytz-2021.1-py2.py3-none-any.whl
+    pip install packages/pandas-0.24.2-cp35-cp35m-manylinux1_x86_64.whl
 
     # Load data
     dx-download-all-inputs
