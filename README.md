@@ -3,7 +3,7 @@
 ## What does this app do?
 Reformats the output of somalier relate to append predicted sex, add a matching column to state whether sample's predicted sex is a true or false match to reported sex. The app also reorders columns to present data clearly in MultiQC report.
 
-![Image of workflow](https://github.com/eastgenomics/eggd_somalier_relate2multiqc/blob/dev/Somalier_relate2multiqc_workflow.jpg)
+![Image of workflow](Somalier_relate2multiqc_workflow.jpg)
 
 ## What are the inputs?
 * somalier.samples.tsv

@@ -21,20 +21,22 @@ def parse_args():
 
     parser.add_argument(
         '-F', '--Female_cutoff',
-        help='An integer value for het calls threshold for females',
+        help='An integer value for het calls threshold for females, assigns as female for equal & above threshold',
         required=False,
         nargs='?',
         const=45,
-        default=45
+        default=45,
+        type=int
         )
 
     parser.add_argument(
         '-M', '--Male_cutoff',
-        help='An integer value for het calls threshold for males.',
+        help='An integer value for het calls threshold for males, assigns as female for equal & below threshold',
         required=False,
         nargs='?',
         const=1,
-        default=1
+        default=1,
+        type=int
         )
 
     args = parser.parse_args()
@@ -43,7 +45,7 @@ def parse_args():
 
 
 def rename_dataframe(data):
-    """REmoves hashtag from familyID and makes sampleID 1st column
+    """Removes hashtag from familyID and makes sampleID 1st column
 
     Args:
         data: unformatted somalier dataframe
@@ -96,10 +98,6 @@ def get_cutoffs(args):
     f_cutoff = args.Female_cutoff
     m_cutoff = args.Male_cutoff
 
-    # Need to convert to int as its str so far
-    f_cutoff = int(f_cutoff)
-    m_cutoff = int(m_cutoff)
-
     return f_cutoff, m_cutoff
 
 
@@ -147,13 +145,13 @@ def matching_sexes(data):
     Predicted_Sex = list(data.Predicted_Sex)
     Match = []
 
-    for sample in range(0,len(Reported_Sex)):
+    for sample in range(0, len(Reported_Sex)):
         reported_sex_sample = Reported_Sex[sample]
         predicted_sex_sample = Predicted_Sex[sample]
         sex_match = reported_sex_sample == predicted_sex_sample
         Match.append(sex_match)
 
-    # Match list is a booleans and not strings so we hard to apply 
+    # Match list is a booleans and not strings so we hard to apply
     # string functions. Convert each boolean to string
 
     Match_lowercase = []
