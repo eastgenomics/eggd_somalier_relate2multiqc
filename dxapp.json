@@ -57,10 +57,7 @@
   },
   "access": {
     "project": "CONTRIBUTE",
-    "allProjects": "VIEW",
-    "network": [
-      "*"
-    ]
+    "allProjects": "VIEW"
   },
   "regionalOptions": {
     "aws:eu-central-1": {
