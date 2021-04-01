@@ -1,0 +1,71 @@
+{
+  "name": "eggd_somalier_relate2multiqc_v1.0.0",
+  "title": "eggd_somalier_relate2multiqc_v1.0.0",
+  "summary": "Reformats somalier output somalier.samples.tsv to append predicted sex to file and it is in a suitable format for multiqc",
+  "dxapi": "1.0.0",
+  "properties": {
+    "githubRelease": "v1.0.0"
+  },
+  "inputSpec": [
+    {
+      "name": "somalier_input",
+      "label": "Somalier samples tsv file",
+      "class": "file",
+      "optional": false,
+      "patterns": [
+        "*.samples.tsv"
+      ],
+      "help": "Output file from somalier relate, default name: somalier.samples.tsv"
+    },
+    {
+      "name": "female_threshold",
+      "label": "Female Threshold",
+      "class": "int",
+      "optional": true,
+      "help": "An integer value for het calls threshold for females. Takes value and above to be female. Default is 45."
+    },
+    {
+      "name": "male_threshold",
+      "label": "Male Threshold",
+      "class": "int",
+      "optional": true,
+      "help": "An integer value for het calls threshold for males. Takes value and below to be male. Default is 1."
+    }
+  ],
+  "outputSpec": [
+    {
+      "name": "modified_somalier_output",
+      "label": "Modified somalier samples tsv output",
+      "class": "file",
+      "patterns": [
+        "*.samples.tsv"
+      ],
+      "help": "Modified somalier sample tsv file with corrected column ordering and appended predicted sex column and true/false reported to predicted sex column."
+    }
+  ],
+  "runSpec": {
+    "timeoutPolicy": {
+      "*": {
+        "hours": 1
+      }
+    },
+    "interpreter": "bash",
+    "release": "16.04",
+    "distribution": "Ubuntu",
+    "file": "src/eggd_somalier_relate2multiqc.sh",
+    "version": "1"
+  },
+  "access": {
+    "project": "CONTRIBUTE",
+    "allProjects": "VIEW"
+  },
+  "regionalOptions": {
+    "aws:eu-central-1": {
+      "systemRequirements": {
+        "*": {
+          "instanceType": "mem3_ssd1_v2_x2"
+        }
+      }
+    }
+  }
+}
