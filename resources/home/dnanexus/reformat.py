@@ -145,11 +145,16 @@ def matching_sexes(data):
     Predicted_Sex = list(data.Predicted_Sex)
     Match = []
 
+    # For every row, state whether they match between reported and
+    # predicted sex. If reported is unknown, then match is NA
     for sample in range(0, len(Reported_Sex)):
         reported_sex_sample = Reported_Sex[sample]
         predicted_sex_sample = Predicted_Sex[sample]
-        sex_match = reported_sex_sample == predicted_sex_sample
-        Match.append(sex_match)
+        if reported_sex_sample == "unknown":
+            Match.append("NA")
+        else:
+            sex_match = reported_sex_sample == predicted_sex_sample
+            Match.append(sex_match)
 
     # Match list is a booleans and not strings so we hard to apply
     # string functions. Convert each boolean to string
@@ -160,6 +165,9 @@ def matching_sexes(data):
         boolean_string = str(boolean)
         boolean_string_lowercase = boolean_string.lower()
         Match_lowercase.append(boolean_string_lowercase)
+
+    # Return the na to NA
+    Match_lowercase = [word.replace('na', 'NA') for word in Match_lowercase]
 
     print(Match_lowercase)
 
