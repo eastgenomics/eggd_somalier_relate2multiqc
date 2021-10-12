@@ -101,6 +101,47 @@ def get_cutoffs(args):
     return f_cutoff, m_cutoff
 
 
+def update_sex_pedigree(data):
+    """Updates original_pedigree_sex to differentiate 0 and 3.
+
+    New function to update original_pedigree_sex so 0 = unknown and 
+    3 = none. This enables later stage in multiqc to show the two
+    states (0 and 3) different.
+
+    Args:
+        data (panda data frame): output from {sample}.somalier.samples.tsv
+    
+    Returns:
+        data (pandas data frame): Updated original_pedigree_sex column
+    """
+    original_sex_column = list(data.sex)
+    new_pedigree_sex_column = []
+    
+    # loop through each sex, assign as follows to new list:
+    # 0 = unknown, 1 = male, 2 = female, 3 = none
+    for sex in original_sex_column:
+        if sex == 0:
+            new_pedigree_sex_column.append("unknown")
+        elif sex == 1:
+            new_pedigree_sex_column.append("male")
+        elif sex == 2:
+            new_pedigree_sex_column.append("female")
+        elif sex == 3:
+            new_pedigree_sex_column.append("none")
+        elif sex >= 4:
+            raise Exception("Sex in original_pedigree_sex_column column"
+                    "is not categorised as 0,1,2,3."
+                    "Check eggs_somalier_relate applet")
+
+    print(original_sex_column)
+    print(new_pedigree_sex_column)
+    # replace the original_pedigree_sex column with the sex as female,
+    # male, uknown and none 
+    data["original_pedigree_sex"] = new_pedigree_sex_column
+
+    return data
+
+
 def predict_sex(data, f_cutoff, m_cutoff):
     """Predicts sex on data provided based on given / default thresholds
 
@@ -167,7 +208,7 @@ def matching_sexes(data):
     Predicted_Sex = list(data.Predicted_Sex)
     Match = []
 
-    # For every row, state whether they match between reported and 
+    # For every row, state whether they match between reported and
     # predicted sex. If reported is unknown, then match is NA
     for sample in range(0, len(Reported_Sex)):
         reported_sex_sample = Reported_Sex[sample]
@@ -189,9 +230,9 @@ def matching_sexes(data):
         boolean_string = str(boolean)
         boolean_string_lowercase = boolean_string.lower()
         Match_lowercase.append(boolean_string_lowercase)
-    
-    # Return the na to NA 
-    Match_lowercase = [word.replace('na','NA') for word in Match_lowercase]
+
+    # Return the na to NA
+    Match_lowercase = [word.replace('na', 'NA') for word in Match_lowercase]
 
     print(Match_lowercase)
 
@@ -208,6 +249,10 @@ def main():
 
     data = pd.read_csv(args.input_somalier, sep='\t')
 
+    # update the sex pedigree to correctly match the sex integers
+    data = update_sex_pedigree(data)
+
+    # rename dataframe to be compatible in multiqc report
     data = rename_dataframe(data)
 
     f_cutoff, m_cutoff = get_cutoffs(args)
