@@ -141,6 +141,28 @@ def matching_sexes(data):
         data (pandas data frame): Updates dataframe
         including predicted sex column
     """
+
+    # somalier relate states that anything that is not 1 or 2 is 
+    # unknown. But we need to classify 3's as None as they are not provided
+
+    sex_pedigree_int = list(data.sex)
+    sex_pedigree_chr = []
+
+    for i in range(0, len(sex_pedigree_int)):
+        sex_int = sex_pedigree_int[i]
+        if sex_int == 0:
+            sex_pedigree_chr.append('unknown')
+        elif sex_int == 1:
+            sex_pedigree_chr.append('male')
+        elif sex_int == 2:
+            sex_pedigree_chr.append('female')
+        else: 
+            sex_pedigree_chr.append('none')
+
+    # replace the original_predigree sex with the updates one
+    data['original_pedigree_sex'] = sex_pedigree_chr
+
+    # Now we can check if what we predicted equals what is reported
     Reported_Sex = list(data.original_pedigree_sex)
     Predicted_Sex = list(data.Predicted_Sex)
     Match = []
@@ -151,6 +173,8 @@ def matching_sexes(data):
         reported_sex_sample = Reported_Sex[sample]
         predicted_sex_sample = Predicted_Sex[sample]
         if reported_sex_sample == "unknown":
+            Match.append("NA")
+        elif reported_sex_sample == "none":
             Match.append("NA")
         else:
             sex_match = reported_sex_sample == predicted_sex_sample
