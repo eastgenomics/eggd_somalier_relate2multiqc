@@ -20,7 +20,7 @@ def parse_args():
         )
 
     parser.add_argument(
-        '-F', '--Female_cutoff',
+        '-F', '--female_cutoff',
         help='An integer value for het calls threshold for females, assigns as female for equal & above threshold',
         required=False,
         nargs='?',
@@ -30,7 +30,7 @@ def parse_args():
         )
 
     parser.add_argument(
-        '-M', '--Male_cutoff',
+        '-M', '--male_cutoff',
         help='An integer value for het calls threshold for males, assigns as female for equal & below threshold',
         required=False,
         nargs='?',
@@ -95,8 +95,8 @@ def get_cutoffs(args):
         f_cuttoff (int): female het calls threshold
         m_cuttoff (int): male het calls threshold
     """
-    f_cutoff = args.Female_cutoff
-    m_cutoff = args.Male_cutoff
+    f_cutoff = args.female_cutoff
+    m_cutoff = args.male_cutoff
 
     return f_cutoff, m_cutoff
 
@@ -204,41 +204,41 @@ def matching_sexes(data):
     data['original_pedigree_sex'] = sex_pedigree_chr
 
     # Now we can check if what we predicted equals what is reported
-    Reported_Sex = list(data.original_pedigree_sex)
+    reported_sex = list(data.original_pedigree_sex)
     Predicted_Sex = list(data.Predicted_Sex)
-    Match = []
+    match = []
 
     # For every row, state whether they match between reported and
     # predicted sex. If reported is unknown, then match is NA
-    for sample in range(0, len(Reported_Sex)):
-        reported_sex_sample = Reported_Sex[sample]
+    for sample in range(0, len(reported_sex)):
+        reported_sex_sample = reported_sex[sample]
         predicted_sex_sample = Predicted_Sex[sample]
         if reported_sex_sample == "unknown":
-            Match.append("NA")
+            match.append("NA")
         elif reported_sex_sample == "none":
-            Match.append("NA")
+            match.append("NA")
         else:
             sex_match = reported_sex_sample == predicted_sex_sample
-            Match.append(sex_match)
+            match.append(sex_match)
 
     # Match list is a booleans and not strings so we hard to apply
     # string functions. Convert each boolean to string
 
-    Match_lowercase = []
+    match_lowercase = []
 
-    for boolean in Match:
+    for boolean in match:
         boolean_string = str(boolean)
         boolean_string_lowercase = boolean_string.lower()
-        Match_lowercase.append(boolean_string_lowercase)
+        match_lowercase.append(boolean_string_lowercase)
 
     # Return the na to NA
-    Match_lowercase = [word.replace('na', 'NA') for word in Match_lowercase]
+    match_lowercase = [word.replace('na', 'NA') for word in match_lowercase]
 
-    print(Match_lowercase)
+    print(match_lowercase)
 
-    Match_Sexes = pd.DataFrame({'Match_Sexes': Match_lowercase})
+    match_sexes = pd.DataFrame({'Match_Sexes': match_lowercase})
 
-    data = pd.concat([data, Match_Sexes], axis=1)
+    data = pd.concat([data, match_sexes], axis=1)
 
     return data
 
