@@ -104,19 +104,19 @@ def get_cutoffs(args):
 def update_sex_pedigree(data):
     """Updates original_pedigree_sex to differentiate 0 and 3.
 
-    New function to update original_pedigree_sex so 0 = unknown and 
+    New function to update original_pedigree_sex so 0 = unknown and
     3 = none. This enables later stage in multiqc to show the two
     states (0 and 3) different.
 
     Args:
         data (panda data frame): output from {sample}.somalier.samples.tsv
-    
+
     Returns:
         data (pandas data frame): Updated original_pedigree_sex column
     """
     original_sex_column = list(data.sex)
     new_pedigree_sex_column = []
-    
+
     # loop through each sex, assign as follows to new list:
     # 0 = unknown, 1 = male, 2 = female, 3 = none
     for sex in original_sex_column:
@@ -130,13 +130,13 @@ def update_sex_pedigree(data):
             new_pedigree_sex_column.append("none")
         elif sex >= 4:
             raise Exception("Sex in original_pedigree_sex_column column"
-                    "is not categorised as 0,1,2,3."
-                    "Check eggs_somalier_relate applet")
+                            "is not categorised as 0,1,2,3."
+                            "Check eggs_somalier_relate applet")
 
     print(original_sex_column)
     print(new_pedigree_sex_column)
     # replace the original_pedigree_sex column with the sex as female,
-    # male, uknown and none 
+    # male, uknown and none
     data["original_pedigree_sex"] = new_pedigree_sex_column
 
     return data
@@ -183,7 +183,7 @@ def matching_sexes(data):
         including predicted sex column
     """
 
-    # somalier relate states that anything that is not 1 or 2 is 
+    # somalier relate states that anything that is not 1 or 2 is
     # unknown. But we need to classify 3's as None as they are not provided
 
     sex_pedigree_int = list(data.sex)
@@ -197,7 +197,7 @@ def matching_sexes(data):
             sex_pedigree_chr.append('male')
         elif sex_int == 2:
             sex_pedigree_chr.append('female')
-        else: 
+        else:
             sex_pedigree_chr.append('none')
 
     # replace the original_predigree sex with the updates one
