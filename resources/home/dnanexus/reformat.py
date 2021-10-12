@@ -189,8 +189,7 @@ def matching_sexes(data):
     sex_pedigree_int = list(data.sex)
     sex_pedigree_chr = []
 
-    for i in range(0, len(sex_pedigree_int)):
-        sex_int = sex_pedigree_int[i]
+    for sex_int in sex_pedigree_int:
         if sex_int == 0:
             sex_pedigree_chr.append('unknown')
         elif sex_int == 1:
