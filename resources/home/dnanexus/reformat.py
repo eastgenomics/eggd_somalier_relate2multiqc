@@ -136,7 +136,7 @@ def update_sex_pedigree(data):
     print(original_sex_column)
     print(new_pedigree_sex_column)
     # replace the original_pedigree_sex column with the sex as female,
-    # male, uknown and none
+    # male, unknown and none
     data["original_pedigree_sex"] = new_pedigree_sex_column
 
     return data
@@ -154,20 +154,20 @@ def predict_sex(data, f_cutoff, m_cutoff):
         data (pandas data frame): Updates dataframe
         including predicted sex column
     """
-    PredictedSex = []
+    predictedsex = []
     x_het = list(data.X_het)
 
     for x in x_het:
         if x >= f_cutoff:
-            PredictedSex.append("female")
+            predictedsex.append("female")
         elif x <= m_cutoff:
-            PredictedSex.append("male")
+            predictedsex.append("male")
         else:
-            PredictedSex.append("unknown")
+            predictedsex.append("unknown")
 
-    Predicted_Sex = pd.DataFrame({'Predicted_Sex': PredictedSex})
+    predicted_sex = pd.DataFrame({'Predicted_Sex': predictedsex})
 
-    data = pd.concat([data, Predicted_Sex], axis=1)
+    data = pd.concat([data, predicted_sex], axis=1)
 
     return data
 
@@ -204,14 +204,14 @@ def matching_sexes(data):
 
     # Now we can check if what we predicted equals what is reported
     reported_sex = list(data.original_pedigree_sex)
-    Predicted_Sex = list(data.Predicted_Sex)
+    predicted_sex = list(data.Predicted_Sex)
     match = []
 
     # For every row, state whether they match between reported and
     # predicted sex. If reported is unknown, then match is NA
     for sample in range(0, len(reported_sex)):
         reported_sex_sample = reported_sex[sample]
-        predicted_sex_sample = Predicted_Sex[sample]
+        predicted_sex_sample = predicted_sex[sample]
         if reported_sex_sample == "unknown":
             match.append("NA")
         elif reported_sex_sample == "none":
