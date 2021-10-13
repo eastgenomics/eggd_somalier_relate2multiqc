@@ -186,21 +186,14 @@ def matching_sexes(data):
     # somalier relate states that anything that is not 1 or 2 is
     # unknown. But we need to classify 3's as None as they are not provided
 
-    sex_pedigree_int = list(data.sex)
-    sex_pedigree_chr = []
+    mappings={'0': 'unknown', '1': 'male', '2':'female', '3': 'none'}
 
-    for sex_int in sex_pedigree_int:
-        if sex_int == 0:
-            sex_pedigree_chr.append('unknown')
-        elif sex_int == 1:
-            sex_pedigree_chr.append('male')
-        elif sex_int == 2:
-            sex_pedigree_chr.append('female')
-        else:
-            sex_pedigree_chr.append('none')
+    # map the intergers in data['sex'] column to the strings in mapping
+    # dictionary. Then appply the output directory to the data frame column
 
-    # replace the original_predigree sex with the updates one
-    data['original_pedigree_sex'] = sex_pedigree_chr
+    data['original_pedigree_sex'] = data['sex'].apply(
+                                    lambda x: mappings.get(str(x))
+                                    )
 
     # Now we can check if what we predicted equals what is reported
     reported_sex = list(data.original_pedigree_sex)
