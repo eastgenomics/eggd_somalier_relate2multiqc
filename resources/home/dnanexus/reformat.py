@@ -195,42 +195,20 @@ def matching_sexes(data):
                                     lambda x: mappings.get(str(x))
                                     )
 
-    # Now we can check if what we predicted equals what is reported
-    reported_sex = list(data.original_pedigree_sex)
-    predicted_sex = list(data.Predicted_Sex)
-    match = []
+    # Need to create a column called match that has true/false boolean 
+    # for every row, stating whether they match between reported and
+    # predicted sex. If reported is unknown/none, then match is NA
 
-    # For every row, state whether they match between reported and
-    # predicted sex. If reported is unknown, then match is NA
-    for sample in range(0, len(reported_sex)):
-        reported_sex_sample = reported_sex[sample]
-        predicted_sex_sample = predicted_sex[sample]
-        if reported_sex_sample == "unknown":
-            match.append("NA")
-        elif reported_sex_sample == "none":
-            match.append("NA")
-        else:
-            sex_match = reported_sex_sample == predicted_sex_sample
-            match.append(sex_match)
+    data["Match_Sexes"] = "NA"
 
-    # Match list is a booleans and not strings so we hard to apply
-    # string functions. Convert each boolean to string
-
-    match_lowercase = []
-
-    for boolean in match:
-        boolean_string = str(boolean)
-        boolean_string_lowercase = boolean_string.lower()
-        match_lowercase.append(boolean_string_lowercase)
-
-    # Return the na to NA
-    match_lowercase = [word.replace('na', 'NA') for word in match_lowercase]
-
-    print(match_lowercase)
-
-    match_sexes = pd.DataFrame({'Match_Sexes': match_lowercase})
-
-    data = pd.concat([data, match_sexes], axis=1)
+    # If reported sex is not unknown or none, then see if reported and 
+    # predicted sex is a match (false/true boolean)
+    for idx, row in data.iterrows():
+        if not (row['original_pedigree_sex'] == "unknown" or row['original_pedigree_sex'] == "none"):
+            data.at[idx, 'Match_Sexes'] = row['original_pedigree_sex'] == row['Predicted_Sex']
+            # need to make the false/true boolean to string to make it 
+            # lower case for multiqc
+            data.at[idx, 'Match_Sexes'] = str(data.at[idx, 'Match_Sexes']).lower()
 
     return data
 
