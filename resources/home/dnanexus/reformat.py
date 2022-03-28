@@ -195,18 +195,20 @@ def matching_sexes(data):
                                     lambda x: mappings.get(str(x))
                                     )
 
-    # Need to create a column called match that has true/false boolean 
+    # Need to create a column called match that has true/false boolean
     # for every row, stating whether they match between reported and
-    # predicted sex. If reported is unknown/none, then match is NA
+    # predicted sex. If reported is unknown/none, then matching sex is NA
 
     data["Match_Sexes"] = "NA"
 
-    # If reported sex is not unknown or none, then see if reported and 
+    # If reported sex is not unknown or none, then see if reported and
     # predicted sex is a match (false/true boolean)
+    # If predicted sex is unknown, matching sex will be reported as NA
     for idx, row in data.iterrows():
-        if not (row['original_pedigree_sex'] == "unknown" or row['original_pedigree_sex'] == "none"):
+        if not (row['original_pedigree_sex'] == "unknown" or row['original_pedigree_sex'] == "none"
+        or row['Predicted_Sex'] == "unknown"):
             data.at[idx, 'Match_Sexes'] = row['original_pedigree_sex'] == row['Predicted_Sex']
-            # need to make the false/true boolean to string to make it 
+            # need to make the false/true boolean to string to make it
             # lower case for multiqc
             data.at[idx, 'Match_Sexes'] = str(data.at[idx, 'Match_Sexes']).lower()
 
