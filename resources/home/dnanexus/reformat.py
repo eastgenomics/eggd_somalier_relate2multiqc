@@ -197,7 +197,7 @@ def matching_sexes(data):
 
     # Need to create a column called match that has true/false boolean
     # for every row, stating whether they match between reported and
-    # predicted sex. If reported is unknown/none, then match is NA
+    # predicted sex. If reported is unknown/none, then matching sex is NA
 
     data["Match_Sexes"] = "NA"
 
