@@ -204,7 +204,8 @@ def matching_sexes(data):
     # If reported sex is not unknown or none, then see if reported and 
     # predicted sex is a match (false/true boolean)
     for idx, row in data.iterrows():
-        if not (row['original_pedigree_sex'] == "unknown" or row['original_pedigree_sex'] == "none" or row['Predicted_Sex'] == "unknown"):
+        if not (row['original_pedigree_sex'] == "unknown" or row['original_pedigree_sex'] == "none" 
+        or row['Predicted_Sex'] == "unknown"):
             data.at[idx, 'Match_Sexes'] = row['original_pedigree_sex'] == row['Predicted_Sex']
             # need to make the false/true boolean to string to make it 
             # lower case for multiqc
