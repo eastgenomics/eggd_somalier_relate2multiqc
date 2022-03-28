@@ -1,10 +1,10 @@
 {
-  "name": "eggd_somalier_relate2multiqc_v1.0.1",
-  "title": "eggd_somalier_relate2multiqc_v1.0.1",
+  "name": "eggd_somalier_relate2multiqc_v1.0.2",
+  "title": "eggd_somalier_relate2multiqc_v1.0.2",
   "summary": "Reformats somalier output somalier.samples.tsv to append predicted sex to file and it is in a suitable format for multiqc",
-  "dxapi": "1.0.1",
+  "dxapi": "1.0.2",
   "properties": {
-    "githubRelease": "v1.0.1"
+    "githubRelease": "v1.0.2"
   },
   "inputSpec": [
     {
